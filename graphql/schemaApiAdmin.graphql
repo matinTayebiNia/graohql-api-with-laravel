@@ -1,0 +1,49 @@
+type Query  {
+    categories: [Category]!  @all @isAdmin
+    category(id:ID @eq):Category! @find @isAdmin
+
+    users: [User!]! @paginate(defaultCount: 10) @isAdmin
+    user(id: ID @eq): User @find @isAdmin
+}
+
+type Mutation{
+    createUser(
+        name:String! @rules(apply:["required","min:4"] ,messages: [{
+            rule: "min"
+            message: "نام نمیتواند کمتر از 4 کارکتر باشد"
+        },{
+            rule: "required"
+            message: "نام خالی میباشد."
+        }]),
+        email:String! @rules(apply:["email","unique:users"] ,messages: [{
+            rule: "email"
+            message: "ایمیل معتبر نیست"
+        },{
+            rule: "unique"
+            message: "این ایمیل برای کاربر دیگری ثبت شده است."
+        }]),
+        password:String! @rules(apply:["min:8","required"],messages: [{
+            rule:"min",
+            message:"رمز عبور نمیتواند کمتر از 8 کاراکتر باشد."
+        },{
+            rule:"required",
+            message:"رمز عبور وارد نشده."
+        }])
+
+    ):User! @create @isAdmin
+    updateUser(input: UpdateUserInput! @spread):User @update @isAdmin
+    deleteUser(id:ID! @rules(apply:["required"]) @eq):User @delete @isAdmin
+}
+
+input CreateCategoryInput @validator{
+    name:String!
+}
+
+
+type Category{
+    id:ID!
+    name:String!
+    books:[Book]! @hasMany
+    created_at: DateTime!
+    updated_at: DateTime!
+}

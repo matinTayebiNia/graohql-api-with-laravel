@@ -1,0 +1,33 @@
+type BookPagination{
+    data:[Book!]!,
+    paginationInfo:paginationInfo!
+}
+
+type paginationInfo{
+    currentPage: Int!
+    perPage: Int!
+    total:Int!
+}
+
+
+type Book{
+    id:ID!
+    user: User! @belongsTo
+    title:String!
+    image:String
+    description:String
+    link:String
+    featured:Boolean!
+    category:Category! @belongsTo
+    created_at: DateTime!
+    updated_at: DateTime!
+
+}
+
+type Category{
+    id:ID!
+    name:String!
+    books:[Book]! @hasMany
+    created_at: DateTime!
+    updated_at: DateTime!
+}

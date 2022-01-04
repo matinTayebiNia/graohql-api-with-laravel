@@ -1,0 +1,13 @@
+type Mutation{
+
+    updateUser(input: UpdateUserInput! @spread):User @update
+
+    createBook(input:createBookInput! @spread):Book @field(resolver: "App\\Http\\Controllers\\BookController@store") @can(ability: "create-book")
+    updateBooks(input:updateBookInput! @spread):Book @field(resolver: "App\\Http\\Controllers\\BookController@update") @can(ability:"edit-book")
+    deleteBooks(id:ID! @eq):Book @field(resolver: "App\\Http\\Controllers\\BookController@destroy") @can(ability: "delete-book")
+
+    createCategory(input:CreateCategoryInput! @spread):Category @create
+    updateCategory(input:UpdateCategoryInput! @spread):Category @update
+    deleteCategory(id:ID! @rules(apply:["required"])):Category @delete
+
+}

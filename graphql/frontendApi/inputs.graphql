@@ -1,0 +1,36 @@
+
+input UpdateUserInput @validator {
+    id:ID!
+    email:String
+    name:String
+}
+
+input CreateCategoryInput @validator{
+    name:String!
+}
+
+input UpdateCategoryInput @validator{
+    id:ID!
+    name:String!
+}
+
+input createBookInput @validator{
+    user_id:ID!
+    title:String!
+    image:Upload!
+    description:String
+    link:String
+    featured:Boolean!
+    category_id:Int!
+}
+
+input updateBookInput @validate(validator: "App\\GraphQL\\Validators\\Books\\updateBookInputValidator"){
+    id:ID!
+    user_id:ID!
+    title:String!
+    image:Upload
+    description:String
+    link:String
+    featured:Boolean!
+    category_id:Int!
+}

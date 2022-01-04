@@ -1,0 +1,15 @@
+type Query {
+
+    books:[Book] @paginate(defaultCount: 10)
+    book(id:ID @eq):Book @find
+    booksFeatured(featured:Boolean!):[Book!]
+
+    me:User @guard @auth
+    booksUser(user_id:ID!,first:Int!,page:Int! @eq):BookPagination! @field(resolver:"App\\Http\\Controllers\\BookController@show") @guard
+
+    categories: [Category]! @all
+    category(id:ID @eq):Category! @find
+}
+
+
+#@can(ability:"viewBook" ,find: "user_id")
